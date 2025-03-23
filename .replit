@@ -10,3 +10,18 @@ run = ["sh", "-c", "npm run dev"]
 [[ports]]
 localPort = 3000
 externalPort = 80
+
+[[ports]]
+localPort = 3001
+externalPort = 3001
+
+[workflows]
+
+[[workflows.workflow]]
+name = "Dev Server"
+author = 40777785
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node server/index.js"
