@@ -1,34 +1,35 @@
+
 "use client"
 import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
 
 const Navbar = () => {
-    return (
-        <div>
-               <header className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="logo w-24">
+  return (
+    <header className="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div className="logo">
+        <Link href="/">
           <Image src="/logo.png" alt="Beauty Training Courses Logo" width={50} height={50} />
-        </div>
-        <nav className="hidden md:flex space-x-8">
-          <Link href="/" className="text-gray-700 hover:text-gray-900">Home</Link>
-          <Link href="/about" className="text-gray-700 hover:text-gray-900">About Us</Link>
-          <Link href="/faqs" className="text-gray-700 hover:text-gray-900">FAQs</Link>
-          <Link href="/contact" className="text-gray-700 hover:text-gray-900">Contact</Link>
-          {/* <Link href="/blog" className="text-gray-700 hover:text-gray-900">Blog</Link> */}
-        </nav>
-        <div className="flex items-center">
-          <a href='/signIn' className="border rounded-full px-4 py-1 text-sm flex items-center">
-            Sign in / Signup <span className="ml-1">▼</span>
-          </a>
-          <div className="border-gray-700 border-2 ml-4 w-12 h-12 rounded-full flex items-center justify-center overflow-hidden">
-  <Image src="/user.png" alt="User" width={32} height={32} />
-</div>
-
-        </div>
-      </header>
-        </div>
-    );
+        </Link>
+      </div>
+      
+      <nav className="hidden md:flex space-x-8">
+        <Link href="/" className="text-gray-700 hover:text-gray-900">Home</Link>
+        <Link href="/about" className="text-gray-700 hover:text-gray-900">About Us</Link>
+        <Link href="/faqs" className="text-gray-700 hover:text-gray-900">FAQs</Link>
+        <Link href="/contact" className="text-gray-700 hover:text-gray-900">Contact</Link>
+      </nav>
+      
+      <div className="flex items-center gap-4">
+        <Link href="/signIn" className="text-gray-700 hover:text-gray-900 px-4 py-2">
+          Sign In
+        </Link>
+        <Link href="/SignUp" className="bg-[#658396] text-white px-4 py-2 rounded-full hover:bg-[#4a697c]">
+          Sign Up
+        </Link>
+      </div>
+    </header>
+  );
 }
 
 export default Navbar;
