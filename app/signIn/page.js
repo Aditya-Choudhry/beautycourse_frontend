@@ -18,9 +18,9 @@ export default function SignIn() {
 
     const result = await login(email, password);
     if (result.success) {
-      router.push('/AdminDash');
+      // Router push is handled in login function
     } else {
-      setError('Authentication failed');
+      setError(result.error || 'Authentication failed');
     }
   };
 
