@@ -1,119 +1,74 @@
 "use client"
-
-import Image from "next/image";
-import { FcGoogle } from 'react-icons/fc';
-import { FaFacebookF, FaTwitter, FaVimeoV, FaYoutube } from 'react-icons/fa';
-import Link from "next/link";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../context/AuthContext';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function SignIn() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter();
+  const { login } = useAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    const result = await login(email, password);
+    if (result.success) {
+      router.push('/');
+    } else {
+      setError(result.error);
+    }
+  };
+
   return (
-    <div style={{
-      backgroundImage: " url('signInBG.png')",
-      backgroundSize: "cover",
-      backgroundRepeat: "no-repeat"
-
-    }} className="relative flex h-[50vh] w-full ">
-      {/* Left Section */}
-      <div className="flex flex-col justify-center p-12 w-full md:w-1/2">
-        <div className=" flex ">
-<div>
-
-<Image
-            src="/logo.png"
-            alt="Beauty Training Courses Logo"
-            width={100}
-            height={50}
-          />
-          <h1 className="text-5xl font-semibold mt-6">Sign In to</h1>
-          <p className="text-lg text-gray-700">Beauty Training Courses UK</p>
-          <p className="text-gray-500 mt-4">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-          </p>
-</div>
-          <Image
-            src="/signIn.png"
-            alt="Illustration"
-            width={300}
-            height={300}
-            className="mt-8"
-          />
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
         </div>
-      </div>
-
-      {/* Right Section (Overlay Form) */}
-      <div className="absolute top-96 right-0 transform -translate-y-1/2 w-full md:w-1/2  rounded-lg">
-        <div className="w-full max-w-md mx-auto">
-          <div className="bg-white rounded-3xl shadow-lg p-8">
-            <div className="mb-8">
-              <h2 className="text-lg font-medium mb-2">Welcome to <span className="text-gray-400">LOREM</span></h2>
-              <h1 className="text-4xl font-bold">Sign In</h1>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          {error && <div className="text-red-500 text-center">{error}</div>}
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Email address"
+              />
             </div>
-            
-            {/* Social Login Buttons */}
-            <div className="flex space-x-2 mb-6">
-              <button className="flex-1 border rounded-lg px-4 py-2 flex items-center justify-center space-x-2 hover:bg-gray-50">
-                <FcGoogle size={20} />
-                <span className="text-sm">Sign in with Google</span>
-              </button>
-              <button className="w-12 h-12 border rounded-lg flex items-center justify-center hover:bg-gray-50">
-                <FaFacebookF size={20} className="text-blue-600" />
-              </button>
-              <button className="w-12 h-12 border rounded-lg flex items-center justify-center hover:bg-gray-50">
-                <Image src="/apple.png" width={24} height={24} alt="Alternative login" />
-              </button>
-            </div>
-            
-            {/* Login Form */}
-            <form>
-              <div className="mb-6">
-                <label className="block text-sm font-medium mb-2">Enter your username or email address</label>
-                <input 
-                  type="text" 
-                  placeholder="Username or email address"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              
-              <div className="mb-2">
-                <label className="block text-sm font-medium mb-2">Enter your Password</label>
-                <input 
-                  type="password" 
-                  placeholder="Password"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              
-              <div className="flex justify-end mb-6">
-                <Link href="/forgot-password" className="text-sm text-blue-500 hover:underline">
-                  Forgot Password
-                </Link>
-              </div>
-              
-              <button  
-  type="button" 
-  onClick={() => window.location.href = '/AdminDash'}
-  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 rounded-lg transition duration-200"
->
-  Login
-</button>
-
-              
-              <div className="mt-4 text-center text-blue-500 text-sm">
-                (2 free trial and £300 subscription)
-              </div>
-            </form>
-            
-            {/* No Account */}
-            <div className="mt-8 text-right">
-              <span className="text-sm text-gray-500">No Account ? </span>
-              <Link href="/SignUp" className="text-sm text-blue-500 hover:underline">
-                Sign up
-              </Link>
+            <div>
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Password"
+              />
             </div>
           </div>
+
+          <div>
+            <button
+              type="submit"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#658396] hover:bg-[#4a697c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Sign in
+            </button>
+          </div>
+        </form>
+
+        <div className="text-center">
+          <p>Don't have an account? <Link href="/SignUp" className="text-[#658396] hover:text-[#4a697c]">Sign up</Link></p>
         </div>
       </div>
     </div>
   );
 }
-

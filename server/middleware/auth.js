@@ -4,15 +4,38 @@ const User = require('../models/User');
 
 const protect = async (req, res, next) => {
   try {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) return res.status(401).json({ message: 'Not authorized' });
+    let token;
+    
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+
+    if (!token) {
+      return res.status(401).json({ message: 'Not authorized, no token' });
+    }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.id).select('-password');
+    const user = await User.findById(decoded.id).select('-password');
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    if (!user.isVerified) {
+      return res.status(401).json({ message: 'Please verify your email first' });
+    }
+
+    req.user = user;
     next();
   } catch (error) {
-    res.status(401).json({ message: 'Token invalid' });
+    return res.status(401).json({ message: 'Not authorized, token failed' });
   }
+};
+
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: '30d',
+  });
 };
 
 const restrictTo = (...roles) => {
@@ -24,4 +47,4 @@ const restrictTo = (...roles) => {
   };
 };
 
-module.exports = { protect, restrictTo };
+module.exports = { protect, generateToken, restrictTo };
