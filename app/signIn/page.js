@@ -18,9 +18,9 @@ export default function SignIn() {
 
     const result = await login(email, password);
     if (result.success) {
-      router.push('/');
+      // Router push is handled in login function
     } else {
-      setError(result.error);
+      setError(result.error || 'Authentication failed');
     }
   };
 

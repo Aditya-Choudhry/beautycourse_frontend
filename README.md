@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Beauty Training Course Platform
 
-First, run the development server:
+## Project Overview
+This is a Next.js project for connecting beauty training providers with students, featuring both frontend and backend components.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Environment Configuration
+Create or modify `.env` file in the root directory with the following variables:
+```
+MONGO_URI=your_mongodb_uri
+JWT_SECRET=your_jwt_secret_key
+PORT=5000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Structure
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Frontend (Next.js)
+- **Routing**: All routes are located in the `app` directory following Next.js 13+ app router convention
+  - Main pages:
+    - `/` - Home page
+    - `/about` - About page
+    - `/find-course` - Course search
+    - `/join-provider` - Provider registration
+    - `/signIn` - Login page
+    - `/SignUp` - Registration page
+  - Admin pages:
+    - `/AdminDash` - Admin dashboard
+    - `/AdminLead` - Lead management
+    - `/AdminProvider` - Provider management
+    - `/AdminSubs` - Subscription management
+  - User pages:
+    - `/UserProfile` - User profile
+    - `/UserSubs` - User subscriptions
+    - `/UserLeads` - User leads
+    - `/UserView` - User view
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Backend (Express)
+- Located in `server` directory
+- Main components:
+  - `server/index.js` - Main server file
+  - `server/routes` - API routes
+  - `server/config` - Configuration files
+  - `server/models` - Database models
+  - `server/middleware` - Custom middleware
 
-## Learn More
+### Components
+- Reusable components are in `components` directory
+  - `Navbar.js` - Navigation component
+  - `Footer.js` - Footer component
 
-To learn more about Next.js, take a look at the following resources:
+### Assets
+- All static assets (images, icons) are in `public` directory
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Development
+1. Install dependencies:
+```bash
+npm install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Start development server:
+```bash
+npm run dev
+```
 
-## Deploy on Vercel
+3. Start backend server:
+```bash
+node server/index.js
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Configuration Updates
+- Update MongoDB connection: Modify `MONGO_URI` in `.env`
+- Update JWT secret: Modify `JWT_SECRET` in `.env`
+- Update API routes: Modify files in `server/routes`
+- Update frontend routes: Add/modify directories in `app` folder
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Important Files
+- `app/layout.js` - Root layout with navigation logic
+- `server/index.js` - Express server configuration
+- `tailwind.config.js` - Styling configuration
+- `.env` - Environment variables
